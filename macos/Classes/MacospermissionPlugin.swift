@@ -43,7 +43,7 @@ public class MacospermissionPlugin: NSObject, FlutterPlugin {
             
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() ) {
                 
-                AVCaptureDevice.requestAccess(for: cameraMediaType) { granted in
+                AVCaptureDevice.requestAccess(for: AVMediaType.audio) { granted in
                     if granted {
                     } else {
                     }
@@ -79,7 +79,7 @@ public class MacospermissionPlugin: NSObject, FlutterPlugin {
             
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() ) {
                 
-                AVCaptureDevice.requestAccess(for: cameraMediaType) { granted in
+                AVCaptureDevice.requestAccess(for: AVMediaType.video) { granted in
                     if granted {
                     } else {
                     }
