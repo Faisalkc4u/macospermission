@@ -41,15 +41,8 @@ public class MacospermissionPlugin: NSObject, FlutterPlugin {
             }
         case "requestCameraPermission":
             
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() ) {
-                
-                AVCaptureDevice.requestAccess(for: AVMediaType.audio) { granted in
-                    if granted {
-                    } else {
-                    }
-                }
-            }
-                    case "getVideoPermission":
+            requestPermission(type:AVMediaType.audio)
+        case "getVideoPermission":
             
             if #available(OSX 10.14, *) {
                 let cameraMediaType = AVMediaType.video
@@ -76,17 +69,47 @@ public class MacospermissionPlugin: NSObject, FlutterPlugin {
                 result("CHECK AGAIN")
             }
         case "requestVideoPermission":
+            requestPermission(type:AVMediaType.video)
+            case "availableDevices":
+            result(avaialableDevices())
             
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() ) {
-                
-                AVCaptureDevice.requestAccess(for: AVMediaType.video) { granted in
-                    if granted {
-                    } else {
-                    }
-                }
-            }
         default:
             result(FlutterMethodNotImplemented)
         }
+    }
+    func requestPermission(type:AVMediaType)
+    {
+        
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() ) {
+            if #available(OSX 10.14, *)
+            {
+                
+                AVCaptureDevice.requestAccess(for: type) { granted in
+                if granted {
+                } else {
+                }
+            }
+            }
+        }
+    }
+    func avaialableDevices()->Array<Dictionary<String,String>> {
+        var result=[[String:String]]()
+        let devices = AVCaptureDevice.devices()
+                        for device in devices {
+                             var availableList=Dictionary<String,String>()
+                            availableList["Description"]=device.description
+                            availableList["UniqueID"]=device.uniqueID
+                            availableList["ModelID"]=device.modelID
+                            availableList["LocalName"]=device.localizedName
+                            availableList["Manufacturer"]=device.manufacturer
+                            result.append(availableList)
+                            // Camera object found and assign it to captureDevice
+                            // if ((device as AnyObject).hasMediaType(AVMediaTypeVideo)) {
+                            //     print(device)
+                            
+                            // }
+                        }
+                        return result;
+                        
     }
 }

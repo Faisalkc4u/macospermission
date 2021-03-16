@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/services.dart';
+import 'package:macospermission/CameraDevice.dart';
 
 class Macospermission {
   static const MethodChannel _channel = const MethodChannel('macospermission');
@@ -34,5 +35,15 @@ class Macospermission {
         await _channel.invokeMethod('requestVideoPermission');
     print(version);
     return version;
+  }
+
+  Future<List<CameraDevice>> getAvailableDevices() async {
+    List<CameraDevice> temp = <CameraDevice>[];
+    final devices =
+        await _channel.invokeMethod<List<dynamic>>('availableDevices');
+    for (var device in devices) {
+      temp.add(CameraDevice.fromjson((device as Map<dynamic, dynamic>)));
+    }
+    return temp;
   }
 }
