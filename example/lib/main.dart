@@ -55,7 +55,7 @@ class _MyAppState extends State<MyApp> {
               Text('Running on: $_platformVersion\n'),
               MaterialButton(
                 onPressed: () async {
-                  await Macospermission().getPermissions();
+                  await Macospermission().getCameraPermissions();
                 },
                 child: Text(
                   "Permission",

@@ -10,7 +10,14 @@ class Macospermission {
     return version;
   }
 
-  Future<void> getPermissions() async {
+  Future<void> requestCameraPermissions() async {
+    final String version =
+        await _channel.invokeMethod('requestCameraPermission');
+    print(version);
+    return version;
+  }
+
+  Future<String> getCameraPermissions() async {
     final String version = await _channel.invokeMethod('getCameraPermission');
     print(version);
     return version;
