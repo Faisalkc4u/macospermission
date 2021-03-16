@@ -49,6 +49,42 @@ public class MacospermissionPlugin: NSObject, FlutterPlugin {
                     }
                 }
             }
+                    case "getVideoPermission":
+            
+            if #available(OSX 10.14, *) {
+                let cameraMediaType = AVMediaType.video
+                
+                
+                let cameraAuthorizationStatus = AVCaptureDevice.authorizationStatus(for: cameraMediaType)
+                switch cameraAuthorizationStatus {
+                case .denied: result("denied")
+                    break
+                case .authorized: result("authorized")
+                    break
+                case .restricted: result("restricted")
+                    break
+                case .notDetermined:
+                    result("notDetermined")
+                    break
+                @unknown default:
+                    result("check")
+                    
+                }
+                
+            }else
+            {
+                result("CHECK AGAIN")
+            }
+        case "requestVideoPermission":
+            
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() ) {
+                
+                AVCaptureDevice.requestAccess(for: cameraMediaType) { granted in
+                    if granted {
+                    } else {
+                    }
+                }
+            }
         default:
             result(FlutterMethodNotImplemented)
         }

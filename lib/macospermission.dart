@@ -22,4 +22,17 @@ class Macospermission {
     print(version);
     return version;
   }
+
+  Future<String> getVideoPermission() async {
+    final String version = await _channel.invokeMethod('getVideoPermission');
+    print(version);
+    return version;
+  }
+
+  Future<void> requestVideoPermission() async {
+    final String version =
+        await _channel.invokeMethod('requestVideoPermission');
+    print(version);
+    return version;
+  }
 }
