@@ -11,38 +11,34 @@ class Macospermission {
     return version;
   }
 
-  Future<void> requestCameraPermissions() async {
-    final String version =
-        await _channel.invokeMethod('requestCameraPermission');
+  Future<void> requestAudioPermissions() async {
+    await _channel.invokeMethod('requestAudioPermission');
+    return;
+  }
+
+  Future<String> getAudioPermissions() async {
+    final String version = await _channel.invokeMethod('getAudioPermission');
     print(version);
     return version;
   }
 
-  Future<String> getCameraPermissions() async {
+  Future<String> getCameraPermission() async {
     final String version = await _channel.invokeMethod('getCameraPermission');
     print(version);
     return version;
   }
 
-  Future<String> getVideoPermission() async {
-    final String version = await _channel.invokeMethod('getVideoPermission');
-    print(version);
-    return version;
+  Future<void> requestCameraPermission() async {
+    await _channel.invokeMethod('requestCameraPermission');
+    return;
   }
 
-  Future<void> requestVideoPermission() async {
-    final String version =
-        await _channel.invokeMethod('requestVideoPermission');
-    print(version);
-    return version;
-  }
-
-  Future<List<CameraDevice>> getAvailableDevices() async {
-    List<CameraDevice> temp = <CameraDevice>[];
+  Future<List<MacDevice>> getAvailableDevices() async {
+    List<MacDevice> temp = <MacDevice>[];
     final devices =
         await _channel.invokeMethod<List<dynamic>>('availableDevices');
     for (var device in devices) {
-      temp.add(CameraDevice.fromjson((device as Map<dynamic, dynamic>)));
+      temp.add(MacDevice.fromjson((device as Map<dynamic, dynamic>)));
     }
     return temp;
   }

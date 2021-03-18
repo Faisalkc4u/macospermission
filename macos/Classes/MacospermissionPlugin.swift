@@ -13,7 +13,7 @@ public class MacospermissionPlugin: NSObject, FlutterPlugin {
         switch call.method {
         case "getPlatformVersion":
             result("macOS " + ProcessInfo.processInfo.operatingSystemVersionString)
-        case "getCameraPermission":
+        case "getAudioPermission":
             
             if #available(OSX 10.14, *) {
                 let cameraMediaType = AVMediaType.audio
@@ -39,10 +39,10 @@ public class MacospermissionPlugin: NSObject, FlutterPlugin {
             {
                 result("CHECK AGAIN")
             }
-        case "requestCameraPermission":
+        case "requestAudioPermission":
             
             requestPermission(type:AVMediaType.audio)
-        case "getVideoPermission":
+        case "getCameraPermission":
             
             if #available(OSX 10.14, *) {
                 let cameraMediaType = AVMediaType.video
@@ -68,7 +68,7 @@ public class MacospermissionPlugin: NSObject, FlutterPlugin {
             {
                 result("CHECK AGAIN")
             }
-        case "requestVideoPermission":
+        case "requestCameraPermission":
             requestPermission(type:AVMediaType.video)
             case "availableDevices":
             result(avaialableDevices())
@@ -94,6 +94,10 @@ public class MacospermissionPlugin: NSObject, FlutterPlugin {
     }
     func avaialableDevices()->Array<Dictionary<String,String>> {
         var result=[[String:String]]()
+
+        print(AVCaptureDevice.default(for:.audio));
+
+
         let devices = AVCaptureDevice.devices()
                         for device in devices {
                              var availableList=Dictionary<String,String>()
@@ -105,11 +109,16 @@ public class MacospermissionPlugin: NSObject, FlutterPlugin {
                             result.append(availableList)
                             // Camera object found and assign it to captureDevice
                             // if ((device as AnyObject).hasMediaType(AVMediaTypeVideo)) {
-                            //     print(device)
-                            
+  //                             print(device.DeviceType)
+//deviceType(data:device)
                             // }
                         }
                         return result;
                         
+    }
+    func deviceType(data:AVCaptureDevice)->String{
+   // let type="unknown"
+    print(type(of:data))
+    return "type";
     }
 }

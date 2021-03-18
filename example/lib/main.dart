@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
+import 'package:macospermission/CameraDevice.dart';
 import 'package:macospermission/macospermission.dart';
 
 void main() {
@@ -15,11 +16,11 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
-
+  List<MacDevice> _deviceList = <MacDevice>[];
   @override
   void initState() {
     super.initState();
-    initPlatformState();
+    initPlatformState(); loadDevices();
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -39,6 +40,13 @@ class _MyAppState extends State<MyApp> {
 
     setState(() {
       _platformVersion = platformVersion;
+    });
+  }
+
+  loadDevices() async {
+    final temp = await Macospermission().getAvailableDevices();
+    setState(() {
+      _deviceList = temp;
     });
   }
 
@@ -62,6 +70,12 @@ class _MyAppState extends State<MyApp> {
                 child: Text(
                   "Permission",
                 ),
+              ),
+              PopupMenuButton(
+                itemBuilder: (context) => _deviceList
+                    .map((e) => PopupMenuItem(child: Text(e.deviceName)))
+                    .toList(),
+                child: Text("Device List"),
               )
             ],
           ),
